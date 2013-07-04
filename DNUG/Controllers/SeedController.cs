@@ -28,7 +28,9 @@ namespace Oak.Controllers
 
         public void SampleEntries()
         {
-
+            dynamic db = new DynamicDb();
+            db.Blogs().Insert(new { Title = "Title 1" });
+            db.Blogs().Insert(new { Title = "Title 2" });
         }
 
         public Seed Seed { get; set; }
