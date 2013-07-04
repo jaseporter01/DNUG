@@ -19,6 +19,8 @@ namespace Oak.Controllers
         public IEnumerable<Func<dynamic>> Scripts()
         {
             yield return CreateBlogsTable;
+
+            yield return CreateCommentsTable;
         }
 
         public string CreateBlogsTable()
@@ -26,11 +28,26 @@ namespace Oak.Controllers
             return Seed.CreateTable("Blogs", Seed.Id(), new { Title = "nvarchar(255)" });
         }
 
+        public string CreateCommentsTable()
+        {
+            return Seed.CreateTable("Comments", 
+                Seed.Id(),
+                new { BlogId = "int", ForeignKey = "Blogs(Id)" },
+                new { Text = "nvarchar(1000)" }
+            );
+        }
+
         public void SampleEntries()
         {
             dynamic db = new DynamicDb();
-            db.Blogs().Insert(new { Title = "Title 1" });
-            db.Blogs().Insert(new { Title = "Title 2" });
+
+            var blogId = db.Blogs().Insert(new { Title = "Title 1" });
+            db.Comments().Insert(new { blogId, Text = "comment 1" });
+            db.Comments().Insert(new { blogId, Text = "comment 2" });
+
+            blogId = db.Blogs().Insert(new { Title = "Title 2" });
+            db.Comments().Insert(new { blogId, Text = "comment 3" });
+            db.Comments().Insert(new { blogId, Text = "comment 4" });
         }
 
         public Seed Seed { get; set; }
