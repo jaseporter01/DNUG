@@ -1,0 +1,13 @@
+website_port: 3000
+website_deploy_directory: c:\iisexpress\DNUG
+website_port_load_balanced_1: 4000
+website_deploy_directory_load_balanced_1: c:\iisexpress\DNUG_4000
+website_port_load_balanced_2: 5000
+website_deploy_directory_load_balanced_2: c:\iisexpress\DNUG_5000
+solution_name: DNUG #just the name, no .sln extension
+mvc_project: DNUG #just the folder name, no .csproj extension
+test_project: DNUG.Tests #just the folder name, no .csproj extension
+test_runner: ./packages/nspec.0.9.67/tools/NSpecRunner.exe
+iis_express: C:\Program Files (x86)\IIS Express
+database_name: DNUG
+database_server: (local)
