@@ -10,13 +10,8 @@ namespace DNUG.Controllers
 {
     public class Blogs : DynamicRepository { }
 
-    public class Blog : Gemini
+    public class Blog : DynamicModel
     {
-        static Blog()
-        {
-            Gemini.Extend<Blog, Validations>();
-        }
-
         Blogs blogs = new Blogs();
 
         public Blog(object dto) : base(dto) { }
