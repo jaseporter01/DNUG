@@ -26,7 +26,23 @@ namespace DNUG.Controllers
         [HttpPost]
         public void Create(dynamic @params)
         {
-            blogs.Insert(@params);
+            @params.Validates = new DynamicFunction(() =>
+            {
+                return new List<dynamic> { new Uniqueness("Title", blogs) };
+            });
+
+            @params.Extend<Validations>();
+
+            if(@params.IsValid())
+            {
+                blogs.Insert(@params);    
+            }
+            else
+            {
+                Console.Out.WriteLine("it wasn't valid: " + @params.FirstError());
+                (@params.Errors() as IEnumerable<dynamic>).ForEach(s => Console.Out.WriteLine(s));
+                Console.Out.WriteLine(@params);
+            }
         }
     }
 }
