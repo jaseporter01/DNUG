@@ -18,7 +18,12 @@ namespace Oak.Controllers
     {
         public IEnumerable<Func<dynamic>> Scripts()
         {
-            return null;
+            yield return CreateBlogsTable;
+        }
+
+        public string CreateBlogsTable()
+        {
+            return Seed.CreateTable("Blogs", Seed.Id(), new { Title = "nvarchar(255)" });
         }
 
         public void SampleEntries()
