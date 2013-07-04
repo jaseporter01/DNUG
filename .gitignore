@@ -2,7 +2,5 @@ Gemfile.lock
 bin
 debug
 sidekickapp.exe
-nginx
 *.suo
-StackTracePreview
 stacktrace.txt
