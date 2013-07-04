@@ -1,0 +1,39 @@
+@{
+  ViewBag.Title = "Index";
+}
+
+<h2>Blogs</h2>
+
+<form class="form-inline">
+  <input type="text" id="title" placeholder="title" />
+  <input type="button" id="create" value="create" class="btn" />
+</form>
+
+<div id="blogs">
+</div>
+
+<script>
+  var createUrl = "";
+
+  function getBlogs() {
+    $.getJSON('@Url.RouteUrl(new { controller = "Blogs", action = "List" })', function (result) {
+      createUrl = result.createUrl;
+      $("#blogs").html('');
+      _.forEach(result.blogs, function (blog) {
+        $("#blogs").append($("<div>" + blog.title + "</div>"));
+      });
+    });
+  }
+
+  function createBlog() {
+    $.post(createUrl, { title: $("#title").val() }, function () {
+      $("#title").val('');
+      getBlogs();
+    });
+  }
+
+  $(function () {
+    getBlogs();
+    $("#create").click(createBlog);
+  });
+</script>

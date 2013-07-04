@@ -22,5 +22,11 @@ namespace DNUG.Controllers
                 CreateUrl = Url.RouteUrl(new { action = "Create" })
             });
         }
+
+        [HttpPost]
+        public void Create(dynamic @params)
+        {
+            blogs.Insert(@params);
+        }
     }
 }
