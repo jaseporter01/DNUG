@@ -41,7 +41,7 @@ namespace DNUG.Controllers
     {
         dynamic blogs = new Blogs();
 
-        public ActionResult List()
+        public dynamic List()
         {
             var all = blogs.All().Include("Comments");
 
@@ -66,12 +66,6 @@ namespace DNUG.Controllers
             if (blog.IsValid())
             {
                 blogs.Insert(blog);    
-            }
-            else
-            {
-                Console.Out.WriteLine("it wasn't valid: " + blog.FirstError());
-                (blog.Errors() as IEnumerable<dynamic>).ForEach(s => Console.Out.WriteLine(s));
-                Console.Out.WriteLine(blog);
             }
         }
     }

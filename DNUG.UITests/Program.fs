@@ -12,10 +12,11 @@ let reset _ =
 
 before(reset)
 
-test(fun _ ->
-    describe "hello world"
+"creating a blog" &&& fun _ ->
     url "http://localhost:3000/"
-)
+    "#title" << "A New Blog Post"
+    click "create"
+    "#blogs" == "A New Blog Post"
 
 run()
 
