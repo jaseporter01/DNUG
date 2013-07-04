@@ -10,6 +10,23 @@ namespace DNUG.Controllers
 {
     public class Blogs : DynamicRepository { }
 
+    public class Blog : Gemini
+    {
+        static Blog()
+        {
+            Gemini.Extend<Blog, Validations>();
+        }
+
+        Blogs blogs = new Blogs();
+
+        public Blog(object dto) : base(dto) { }
+
+        IEnumerable<dynamic> Validates()
+        {
+            yield return new Uniqueness("Title", blogs);
+        }
+    }
+
     public class BlogsController : BaseController
     {
         Blogs blogs = new Blogs();
@@ -26,22 +43,17 @@ namespace DNUG.Controllers
         [HttpPost]
         public void Create(dynamic @params)
         {
-            @params.Validates = new DynamicFunction(() =>
-            {
-                return new List<dynamic> { new Uniqueness("Title", blogs) };
-            });
+            dynamic blog = new Blog(@params);
 
-            @params.Extend<Validations>();
-
-            if(@params.IsValid())
+            if (blog.IsValid())
             {
-                blogs.Insert(@params);    
+                blogs.Insert(blog);    
             }
             else
             {
-                Console.Out.WriteLine("it wasn't valid: " + @params.FirstError());
-                (@params.Errors() as IEnumerable<dynamic>).ForEach(s => Console.Out.WriteLine(s));
-                Console.Out.WriteLine(@params);
+                Console.Out.WriteLine("it wasn't valid: " + blog.FirstError());
+                (blog.Errors() as IEnumerable<dynamic>).ForEach(s => Console.Out.WriteLine(s));
+                Console.Out.WriteLine(blog);
             }
         }
     }
